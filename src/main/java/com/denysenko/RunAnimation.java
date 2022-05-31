@@ -2,6 +2,7 @@ package com.denysenko;
 
 import static java.lang.Thread.sleep;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 
 import javax.swing.JFrame;

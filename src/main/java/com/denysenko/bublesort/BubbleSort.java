@@ -5,6 +5,7 @@ import static java.lang.Thread.sleep;
 import com.denysenko.Sortable;
 import com.denysenko.shapes.RectangularColumns;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,7 +16,6 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class BubbleSort extends JPanel implements Sortable {
-
 
     int spacesInPercent = 10;
     int columnBaseWidth = 1;
@@ -45,8 +45,8 @@ public class BubbleSort extends JPanel implements Sortable {
             } else {
                 x = i * (columnBaseWidth + columnSpacer);
             }
-            //array.add(new RectangularColumns(x ,0, columnWidth, columnBaseHeight + i * multiplier));
-            array.add(new RectangularColumns(x , 0, columnWidth, columnBaseHeight + i * this.columnHeightMultiplier));
+            final int height = columnBaseHeight + i * this.columnHeightMultiplier;
+            array.add(new RectangularColumns(x , invertForY(height), columnWidth, height));
         }
         shapes = array;
         sortedShapes = array;
@@ -56,24 +56,21 @@ public class BubbleSort extends JPanel implements Sortable {
         return array;
     }
 
+    private int invertForY(int height) {
+        return this.getPreferredSize().height - height;
+    }
+
     private void setProportions(int numberColumns) {
         final int frameWidth = this.getPreferredSize().width;
         final int frameHeight = this.getPreferredSize().height;
 
         int spacesSumWidth = frameWidth * spacesInPercent / 100;
-        //int columnsSumWidth = frameWidth * (100 - spacesInPercent) / 100;
         int columnsSumWidth = frameWidth - spacesSumWidth;
 
         columnWidth = Math.max(columnsSumWidth / numberColumns, 1);
         columnSpacer = Math.max(spacesSumWidth / (numberColumns - 1), 1);
 
         columnHeightMultiplier = frameHeight / numberColumns;
-    }
-
-    private RectangularColumns getRectangleProportionalToWindow(int x, int i) {
-        int columnHeight = columnBaseHeight + i * this.columnHeightMultiplier;
-
-        return new RectangularColumns(x , 0, columnWidth, columnBaseHeight + i * this.columnHeightMultiplier);
     }
 
     public List<RectangularColumns> shuffle() {
@@ -123,7 +120,7 @@ public class BubbleSort extends JPanel implements Sortable {
     public void sort() throws InterruptedException {
         for (int i = 0; i < shapes.size() - 1; i++) {
             for (int j = 0; j < shapes.size() - i - 1; j++) {
-                if (shapes.get(j).getX() < shapes.get(j + 1).getX()) {
+                if (shapes.get(j).getX() > shapes.get(j + 1).getX()) {
                     final RectangularColumns grater = shapes.get(j);
                     final RectangularColumns lower = shapes.get(j + 1);
 
@@ -133,7 +130,7 @@ public class BubbleSort extends JPanel implements Sortable {
 
                 }
                 repaint();
-                sleep(50);
+                sleep(10);
             }
         }
     }
@@ -141,7 +138,7 @@ public class BubbleSort extends JPanel implements Sortable {
     public void showShuffled() {
         repaint();
         try {
-            sleep(2_000);
+            sleep(3_000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
