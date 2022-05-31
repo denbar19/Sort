@@ -3,7 +3,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Files
+*.xml
+misc.xml
+!pom.xml
+
 ### IntelliJ IDEA ###
+.idea/*.xml
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
