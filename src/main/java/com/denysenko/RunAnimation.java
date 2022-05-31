@@ -23,7 +23,7 @@ public class RunAnimation {
         component.showShuffled();
 
         try {
-            sleep(1_500);
+            //sleep(1_500);
             component.sort();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

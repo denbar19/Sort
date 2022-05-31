@@ -19,9 +19,10 @@ public class BubbleSort extends JPanel implements Sortable {
     int columnWidth = 15;
     int columnBaseHeight = 100;
     int columnSpacer = 5;
-    int multiplier = 50;
+    int multiplier = 5;
 
     List<RectangularColumns> shapes = new ArrayList<>();
+    List<RectangularColumns> sortedShapes = new ArrayList<>();
     List<RectangularColumns> shuffled;
 
     public BubbleSort(int size, boolean shuffled) {
@@ -42,6 +43,7 @@ public class BubbleSort extends JPanel implements Sortable {
             array.add(new RectangularColumns(x ,0, columnWidth, columnBaseHeight + i * multiplier));
         }
         shapes = array;
+        sortedShapes = array;
         if (shuffled) {
             return shuffle();
         }
@@ -62,7 +64,10 @@ public class BubbleSort extends JPanel implements Sortable {
         }
 
         for (int index = 0; index < shapes.size(); index++) {
-            shuffled.set(indexes.get(index), shapes.get(index));
+
+            int shuffledX = indexes.get(index) * (columnWidth + columnSpacer);
+            shuffled.get(index).setX(shuffledX);
+
         }
         return shuffled;
     }
@@ -104,7 +109,7 @@ public class BubbleSort extends JPanel implements Sortable {
 
                 }
                 repaint();
-                sleep(500);
+                sleep(50);
             }
         }
     }
@@ -112,7 +117,7 @@ public class BubbleSort extends JPanel implements Sortable {
     public void showShuffled() {
         repaint();
         try {
-            sleep(1_500);
+            sleep(2_000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
