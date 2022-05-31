@@ -4,7 +4,7 @@ import com.denysenko.bublesort.BubbleSort;
 
 public class Main {
 
-    static final int SORT_SIZE = 100;
+    static final int SORT_SIZE = 20;
 
     public static void main(String[] args) {
         RunAnimation animation = new RunAnimation();

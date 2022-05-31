@@ -43,7 +43,7 @@ public class RectangularColumns {
             return;
         }
         if (blink) {
-            g2d.setColor(Color.YELLOW);
+            g2d.setColor(Color.DARK_GRAY);
             blink = false;
         } else {
             g2d.setColor(Color.GRAY);

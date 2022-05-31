@@ -4,12 +4,12 @@ target/
 !**/src/test/**/target/
 
 ### Files
-*.xml
-misc.xml
 !pom.xml
+.idea/*.xml
+/.idea/**/*.xml
+/.idea/**/
 
 ### IntelliJ IDEA ###
-.idea/*.xml
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml

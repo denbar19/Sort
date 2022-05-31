@@ -16,10 +16,13 @@ import javax.swing.JPanel;
 
 public class BubbleSort extends JPanel implements Sortable {
 
-    int columnWidth = 15;
-    int columnBaseHeight = 100;
-    int columnSpacer = 5;
-    int multiplier = 5;
+
+    int spacesInPercent = 10;
+    int columnBaseWidth = 1;
+    int columnBaseHeight = 10;
+    int columnSpacer = 1;
+    int columnWidth = 1;
+    int columnHeightMultiplier = 1;
 
     List<RectangularColumns> shapes = new ArrayList<>();
     List<RectangularColumns> sortedShapes = new ArrayList<>();
@@ -28,6 +31,8 @@ public class BubbleSort extends JPanel implements Sortable {
     public BubbleSort(int size, boolean shuffled) {
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(600, 600));
+
+        setProportions(size);
         shapes = fill(size, shuffled);
     }
 
@@ -38,9 +43,10 @@ public class BubbleSort extends JPanel implements Sortable {
             if (i == 0) {
                 x = 0;
             } else {
-                x = i * (columnWidth + columnSpacer);
+                x = i * (columnBaseWidth + columnSpacer);
             }
-            array.add(new RectangularColumns(x ,0, columnWidth, columnBaseHeight + i * multiplier));
+            //array.add(new RectangularColumns(x ,0, columnWidth, columnBaseHeight + i * multiplier));
+            array.add(new RectangularColumns(x , 0, columnWidth, columnBaseHeight + i * this.columnHeightMultiplier));
         }
         shapes = array;
         sortedShapes = array;
@@ -48,6 +54,26 @@ public class BubbleSort extends JPanel implements Sortable {
             return shuffle();
         }
         return array;
+    }
+
+    private void setProportions(int numberColumns) {
+        final int frameWidth = this.getPreferredSize().width;
+        final int frameHeight = this.getPreferredSize().height;
+
+        int spacesSumWidth = frameWidth * spacesInPercent / 100;
+        //int columnsSumWidth = frameWidth * (100 - spacesInPercent) / 100;
+        int columnsSumWidth = frameWidth - spacesSumWidth;
+
+        columnWidth = Math.max(columnsSumWidth / numberColumns, 1);
+        columnSpacer = Math.max(spacesSumWidth / (numberColumns - 1), 1);
+
+        columnHeightMultiplier = frameHeight / numberColumns;
+    }
+
+    private RectangularColumns getRectangleProportionalToWindow(int x, int i) {
+        int columnHeight = columnBaseHeight + i * this.columnHeightMultiplier;
+
+        return new RectangularColumns(x , 0, columnWidth, columnBaseHeight + i * this.columnHeightMultiplier);
     }
 
     public List<RectangularColumns> shuffle() {
@@ -64,10 +90,8 @@ public class BubbleSort extends JPanel implements Sortable {
         }
 
         for (int index = 0; index < shapes.size(); index++) {
-
             int shuffledX = indexes.get(index) * (columnWidth + columnSpacer);
             shuffled.get(index).setX(shuffledX);
-
         }
         return shuffled;
     }
@@ -90,7 +114,7 @@ public class BubbleSort extends JPanel implements Sortable {
             } else {
                 index = i;
             }
-            array.set(index, new RectangularColumns(x ,0, columnWidth, columnBaseHeight + i * multiplier));
+            array.set(index, new RectangularColumns(x , 0, columnWidth, columnBaseHeight + i * columnWidth));
         }
         return array;
     }
